@@ -3,13 +3,22 @@ class Planet
     constructor(x, y)
     {
         this.pos = createVector(x, y);
-        this.vel = createVector(-1, -1);
+        this.vel = p5.Vector.random2D();
+        this.vel.mult(random(3));
+       
 
     }
 
-    move()
+    move(target)
     {
+        this.direction = p5.Vector.sub(target.pos, this.pos)
+        this.direction.setMag(0.1)
+
+        this.vel.add(this.direction)
+        this.vel.limit(5)
         this.pos.add(this.vel)
+
+
     }
 
     show()
