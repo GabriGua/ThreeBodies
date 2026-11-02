@@ -8,13 +8,13 @@ class Planet
         this.vel = p5.Vector.random2D();
         this.vel.mult(random(9));
         this.mass = m;
+        this.final = createVector(0,0);
         
 
     }
 
     setColor()
     {
-        
         
         this.color1 = random(0, 255);
         this.color2 = random(0, 255);
@@ -25,14 +25,15 @@ class Planet
     {
         this.v = p5.Vector.sub(target.pos, this.pos);
 
+
+        var G = 5000;
+        var soft = 400;
+        var distance;
+
+        this.distance = this.v.magSq()
         this.direction = p5.Vector.sub(target.pos, this.pos);
-        this.direction.setMag(0.05* (target.mass / (this.v.magSq())+1));
-
+        this.direction.mult((target.mass * G)/ Math.pow(this.distance + soft, 1.5));
         
-        
-        
-        
-
         this.final = p5.Vector.add(this.final, this.direction)
 
     }
@@ -41,50 +42,10 @@ class Planet
     {
         
         this.vel.add(this.final);
-        this.vel.limit(8);
+        
         this.pos.add(this.vel);
 
     }
-
-    /*move(target1, target2)
-    {
-        let v;
-        let u;
-        let target;
-
-        v = p5.Vector.sub(target1.pos, this.pos);
-        u = p5.Vector.sub(target2.pos, this.pos);
-        
-        if(v.mag() / target1.mass < u.mag() / target2.mass  &&  v.mag() < 670)
-        {
-            target = target1;
-            this.direction = p5.Vector.sub(target.pos, this.pos);
-            this.direction.setMag(0.05);
-
-            this.vel.add(this.direction);
-            this.vel.limit(3);
-            this.pos.add(this.vel);
-        }
-        else if (v.mag() / target1.mass > u.mag() / target2.mass && u.mag() < 670)
-        {
-            target = target2;
-            this.direction = p5.Vector.sub(target.pos, this.pos);
-            this.direction.setMag(0.05);
-
-            this.vel.add(this.direction);
-            this.vel.limit(3);
-            this.pos.add(this.vel);
-        }
-        else
-        {
-            target = null;
-            this.pos.add(this.vel);
-        }
-
-        
-
-
-    }*/
 
     
 

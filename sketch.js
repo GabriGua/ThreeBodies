@@ -10,10 +10,7 @@ function setup()
     createCanvas(windowWidth, windowHeight);
     for(let i = 0; i < 3; i++)
     {
-      planet[i] = new Planet(random(windowWidth), random(windowHeight), random(0, 1));  
-      
-      planet[i].final = p5.Vector.random2D();
-      planet[i].final.normalize();
+      planet[i] = new Planet(random(windowWidth), random(windowHeight), random(0.5, 1));  
       planet[i].setColor();
     }
     
@@ -31,7 +28,7 @@ function draw()
     for(let j = 0; j < planet.length; j++)
     {
         
-        planet[j].final.normalize();
+        planet[j].final =  p5.Vector.sub(planet[j].final,  planet[j].final);
         planet[j].show();
         for(let i = 0; i < planet.length; i++)
         {
@@ -41,7 +38,16 @@ function draw()
             }
            
         }
-        planet[j].attract();
+   
 
+        
     }
+
+    for(let i = 0; i < planet.length; i++)
+    {
+            
+        planet[i].attract();
+    }
+           
+        
 }
