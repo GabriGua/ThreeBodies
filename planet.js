@@ -26,8 +26,8 @@ class Planet
         this.v = p5.Vector.sub(target.pos, this.pos);
 
 
-        var G = 5000;
-        var soft = 400;
+        var G = 10000;
+        var soft = 900;
         var distance;
 
         this.distance = this.v.magSq()
@@ -52,10 +52,10 @@ class Planet
     show()
     {
         
-        stroke(255);
-        strokeWeight(2);
+        stroke(255/zoom);
+        strokeWeight(2/zoom);
         fill(this.color1, this.color2, this.color3, 100)
-        ellipse(this.pos.x, this.pos.y, 16);
+        ellipse(this.pos.x, this.pos.y, 32);
         
     }
 }
