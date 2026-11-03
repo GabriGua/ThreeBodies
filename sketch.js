@@ -5,11 +5,9 @@ let vel;
 let planet = [];
 let zoom = 1;
 
-let massCenter = p5.Vector.random2D();
-
-massCenter = p5.Vector.sub(massCenter, massCenter);
-let relativeMass;
-let totalMass = 0; //not a good way, tomorrow try with a rectangle contaninig all the planets and taking the center.
+let xMin, xMax, yMin, yMax;
+let zoomCenter = p5.Vector.random2D();
+let base, alt;
 
 function setup()
 {
@@ -18,7 +16,15 @@ function setup()
     {
       planet[i] = new Planet(random(windowWidth), random(windowHeight), random(0.5, 1));  
       planet[i].setColor();
-      totalMass = totalMass + planet[i].mass;
+      
+        if(i == 0)
+        {
+        xMin = planet[i].pos.x;
+        yMin = planet[i].pos.y;
+        xMax = xMin;
+        yMax = yMin;
+        }
+      
     }
     
 
@@ -31,9 +37,15 @@ function setup()
 function draw()
 {
     background(0, 30);
-    massCenter = p5.Vector.sub(massCenter, massCenter);
+    
+
+    
+    zoomCenter = p5.Vector.sub(zoomCenter, zoomCenter);
+    zoomCenter = createVector((xMin+xMax)/2, (yMin+yMax)/2)
+    point(zoomCenter);
     for(let j = 0; j < planet.length; j++)
     {
+        
         
         planet[j].final =  p5.Vector.sub(planet[j].final,  planet[j].final);
         
@@ -45,19 +57,30 @@ function draw()
             }
            
         }
+        print("xMin: " + xMin + "xMax: " + xMax + "yMin: "+  yMin + " yMax: "+ yMax)
 
-        if(abs((planet[j].pos.x - massCenter.x))-100 > (windowWidth/2)/zoom || abs((planet[j].pos.y - massCenter.y))-100 > (windowHeight/2)/zoom)
+        
+        point(xMin,yMin)
+        point(xMin,yMax)
+        point(xMax, yMin)
+        point(xMax, yMax)
+
+        
+        if(xMin <  100 || yMin < 100 || xMax > windowWidth-100 || yMax > windowHeight-100 )
         {
             
-            zoom = zoom / 100 * 90;
+            zoom = zoom / 100 * 99;
             
         }
         
-        relativeMass = p5.Vector.mult(planet[j].pos, planet[j].mass)
-        massCenter = p5.Vector.add(relativeMass, massCenter);
+        
         
     }
-    massCenter = p5.Vector.div(massCenter, totalMass);
+    translate(zoomCenter.x/2, zoomCenter.y/2)
+    scale(zoom);
+
+    translate(-zoomCenter.x, -zoomCenter.y)
+    
 
     for(let i = 0; i < planet.length; i++)
     {
@@ -65,13 +88,41 @@ function draw()
         planet[i].attract();
         
     }
-    translate(windowWidth/2, windowHeight / 2)
-    scale(zoom);
-    
-    translate(-massCenter.x, -massCenter.y)
+    xMin = Infinity;
+    xMax = -Infinity;
+    yMin = Infinity;
+    yMax = -Infinity
     for(let j = 0; j < planet.length; j++)
     {
         planet[j].show();
+
+        print(planet[j].pos.x + " x---------------------------")
+        print(planet[j].pos.y + " y -------------------------------------")
+        if(planet[j].pos.x > xMax)
+        {
+            xMax = planet[j].pos.x;
+        }
+        
+        if(planet[j].pos.x < xMin)
+        {
+            xMin = planet[j].pos.x
+        }
+
+        if(planet[j].pos.y > yMax)
+        {
+            yMax = planet[j].pos.y;
+
+        }
+        
+        if(planet[j].pos.y < yMin)
+        {
+            yMin = planet[j].pos.y
+        }
+
     }
+
+    base = xMax - xMin;
+    alt = yMax - yMin;
+
         
 }
