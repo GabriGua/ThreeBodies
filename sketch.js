@@ -1,3 +1,5 @@
+
+
 let pos;
 let vel;
 
@@ -6,7 +8,7 @@ let planet = [];
 let zoom = 1;
 
 let xMin, xMax, yMin, yMax;
-
+let num_planets;
 
 
 
@@ -14,7 +16,7 @@ function setup()
 {
     createCanvas(windowWidth, windowHeight);
     createEnv();
-    
+    createStats();
     
 }
 
@@ -35,7 +37,7 @@ function draw()
         
     }
 
-    
+    timeToReset();
 }
 
 function createEnv()
@@ -78,7 +80,7 @@ function createEnv()
     }
 
 
-
+    num_planets = planet.length;
     background(0);
 }
 
@@ -167,9 +169,32 @@ function resetScene()
     {
         planet.pop()
     }
+
+    createEnv();
 }
 
 function timeToReset()
 {
     
+    for(let i = 0; i < planet.length; i++)
+    {
+        if (planet[i].pos.x > windowWidth || planet[i].pos.x < 0 || planet[i].pos.y > windowHeight || planet[i].pos.y < 0)
+        {
+            num_planets--;
+        }
+        else
+        {
+            if(num_planets < planet.length)
+            {
+                num_planets++;
+            }   
+        }
+    }
+
+    if(num_planets < (planet.length / 2))
+    {
+        resetScene();
+        updateStats()
+    }
+
 }
