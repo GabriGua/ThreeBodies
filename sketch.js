@@ -6,15 +6,44 @@ let planet = [];
 let zoom = 1;
 
 let xMin, xMax, yMin, yMax;
-let zoomCenter = p5.Vector.random2D();
-let base, alt;
+
+
+
 
 function setup()
 {
     createCanvas(windowWidth, windowHeight);
+    createEnv();
+    
+    
+}
+
+function draw()
+{
+    background(0, 30);
+    
+
+    Attraction();
+   
+    createRectangle();
+   
+
+    for(let j = 0; j < planet.length; j++)
+    {
+        planet[j].show();
+
+        
+    }
+
+    
+}
+
+function createEnv()
+{
+    
     for(let i = 0; i < 3; i++)
     {
-      planet[i] = new Planet(random(windowWidth), random(windowHeight), random(0.5, 1));  
+      planet[i] = new Planet(random(windowWidth/2-windowWidth/4, windowWidth/2+windowWidth/4), random(windowHeight/2-windowHeight/6,windowHeight/2+windowHeight/6), random(0.5, 1));  
       planet[i].setColor();
       
         if(i == 0)
@@ -27,22 +56,34 @@ function setup()
       
     }
     
+    let totalMass = 0;
+    let motionV = createVector(0,0);
+
+    for(let i = 0; i < planet.length; i++)
+    {
+        totalMass = totalMass + planet[i].mass;
+        motionV = p5.Vector.add(motionV, p5.Vector.mult(planet[i].vel, planet[i].mass))
+
+
+    }
+
+    motionV = p5.Vector.div(motionV, totalMass);
+
+
+    for(let i = 0; i < planet.length; i++)
+    {
+        planet[i].vel = p5.Vector.sub(planet[i].vel, motionV);
+
+
+    }
+
+
 
     background(0);
-    
-    
-    
 }
 
-function draw()
+function Attraction()
 {
-    background(0, 30);
-    
-
-    
-    zoomCenter = p5.Vector.sub(zoomCenter, zoomCenter);
-    zoomCenter = createVector((xMin+xMax)/2, (yMin+yMax)/2)
-    point(zoomCenter);
     for(let j = 0; j < planet.length; j++)
     {
         
@@ -57,29 +98,15 @@ function draw()
             }
            
         }
-        print("xMin: " + xMin + "xMax: " + xMax + "yMin: "+  yMin + " yMax: "+ yMax)
+        
 
         
-        point(xMin,yMin)
-        point(xMin,yMax)
-        point(xMax, yMin)
-        point(xMax, yMax)
-
         
-        if(xMin <  100 || yMin < 100 || xMax > windowWidth-100 || yMax > windowHeight-100 )
-        {
-            
-            zoom = zoom / 100 * 99;
-            
-        }
         
         
         
     }
-    translate(zoomCenter.x/2, zoomCenter.y/2)
-    scale(zoom);
-
-    translate(-zoomCenter.x, -zoomCenter.y)
+    
     
 
     for(let i = 0; i < planet.length; i++)
@@ -88,16 +115,19 @@ function draw()
         planet[i].attract();
         
     }
-    xMin = Infinity;
+}
+
+
+function createRectangle()
+{
+     xMin = Infinity;
     xMax = -Infinity;
     yMin = Infinity;
-    yMax = -Infinity
+    yMax = -Infinity;
+
     for(let j = 0; j < planet.length; j++)
     {
-        planet[j].show();
 
-        print(planet[j].pos.x + " x---------------------------")
-        print(planet[j].pos.y + " y -------------------------------------")
         if(planet[j].pos.x > xMax)
         {
             xMax = planet[j].pos.x;
@@ -118,11 +148,28 @@ function draw()
         {
             yMin = planet[j].pos.y
         }
-
     }
 
-    base = xMax - xMin;
-    alt = yMax - yMin;
 
-        
+    
+    
+    
+        first = point(xMin,yMin)
+       second =  point(xMin,yMax)
+        third = point(xMax, yMin)
+        fourth =point(xMax, yMax)
+
+}
+
+function resetScene()
+{
+    while(planet.length > 0)
+    {
+        planet.pop()
+    }
+}
+
+function timeToReset()
+{
+    
 }
