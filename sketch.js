@@ -1,5 +1,6 @@
-
-
+const slider = document.getElementById("nPlanets");
+const resetButton = document.getElementById("resetBTN");
+let nPlanets = slider.value;
 let pos;
 let vel;
 
@@ -14,7 +15,7 @@ let num_planets;
 
 function setup()
 {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(windowWidth-25, windowHeight-25);
     createEnv();
     createStats();
     
@@ -22,7 +23,7 @@ function setup()
 
 function draw()
 {
-    background(0, 30);
+    background(20, 30);
     
 
     Attraction();
@@ -43,7 +44,7 @@ function draw()
 function createEnv()
 {
     
-    for(let i = 0; i < 3; i++)
+    for(let i = 0; i < nPlanets; i++)
     {
       planet[i] = new Planet(random(windowWidth/2-windowWidth/4, windowWidth/2+windowWidth/4), random(windowHeight/2-windowHeight/6,windowHeight/2+windowHeight/6), random(0.5, 1));  
       planet[i].setColor();
@@ -153,14 +154,6 @@ function createRectangle()
     }
 
 
-    
-    
-    
-        first = point(xMin,yMin)
-       second =  point(xMin,yMax)
-        third = point(xMax, yMin)
-        fourth =point(xMax, yMax)
-
 }
 
 function resetScene()
@@ -178,7 +171,7 @@ function timeToReset()
     
     for(let i = 0; i < planet.length; i++)
     {
-        if (planet[i].pos.x > windowWidth || planet[i].pos.x < 0 || planet[i].pos.y > windowHeight || planet[i].pos.y < 0)
+        if (planet[i].pos.x > windowWidth-25 || planet[i].pos.x < 0 || planet[i].pos.y > windowHeight-25 || planet[i].pos.y < 0)
         {
             num_planets--;
         }
@@ -194,7 +187,19 @@ function timeToReset()
     if(num_planets < (planet.length / 2))
     {
         resetScene();
-        updateStats()
+        updateStats();
     }
 
+}
+
+slider.oninput = function() {
+   nPlanets = this.value;
+   resetScene();
+   ricreateStats()
+}
+
+resetButton.onclick = function()
+{
+    resetScene();
+    ricreateStats();
 }
