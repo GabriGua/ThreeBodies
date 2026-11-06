@@ -3,6 +3,8 @@ const resetButton = document.getElementById("resetBTN");
 const saveButton = document.getElementById("saveBTN");
 const loadButton = document.getElementById("loadBTN");
 const autRes = document.getElementById("keepGoing");
+const speedSlider = document.getElementById("speedP");
+
 
 let nPlanets = slider.value;
 let pos;
@@ -16,6 +18,11 @@ let xMin, xMax, yMin, yMax;
 let num_planets;
 
 let runState;
+
+let speed = 1;
+
+let subSteps = 50;
+let timeStep = 1/subSteps;
 
 
 function setup()
@@ -31,7 +38,12 @@ function draw()
     background(20, 30);
     
 
-    Attraction();
+    for(let i = 0; i < speed * subSteps; i++)
+    {
+        Attraction();
+
+    }
+    
    
     createRectangle();
    
@@ -51,7 +63,7 @@ function createEnv()
     
     for(let i = 0; i < nPlanets; i++)
     {
-      planet[i] = new Planet(random(windowWidth/2-windowWidth/4, windowWidth/2+windowWidth/4), random(windowHeight/2-windowHeight/6,windowHeight/2+windowHeight/6), random(0.5, 1));  
+      planet[i] = new Planet(random(windowWidth/2-windowWidth/4, windowWidth/2+windowWidth/4), random(windowHeight/2-windowHeight/6,windowHeight/2+windowHeight/6), random(0.5, 1.5));  
       planet[i].setColor();
       
         if(i == 0)
@@ -213,6 +225,10 @@ slider.oninput = function() {
    nPlanets = this.value;
    resetScene();
    ricreateStats()
+}
+speedSlider.oninput = function()
+{
+    speed = speedSlider.value;
 }
 
 resetButton.onclick = function()

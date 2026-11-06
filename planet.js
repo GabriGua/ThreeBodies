@@ -27,7 +27,7 @@ class Planet
 
 
         var G = 10000;
-        var soft = 1000;
+        var soft = 400;
         var distance;
 
         this.distance = this.v.magSq()
@@ -41,9 +41,10 @@ class Planet
     attract()
     {
         
-        this.vel.add(this.final);
+        this.vel.add(p5.Vector.mult(this.final, timeStep));
         
-        this.pos.add(this.vel);
+        this.pos.add(p5.Vector.mult(this.vel, timeStep));
+
 
     }
 

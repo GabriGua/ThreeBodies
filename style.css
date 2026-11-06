@@ -5,6 +5,20 @@ body{
     background-color: black;
 }
 
+h1{
+    color: rgb(255, 191, 204);
+    text-shadow: crimson 0 0 4px;
+    text-shadow: rgb(121, 8, 30) 200px;
+    text-align: center;
+}
+h5{
+    color: rgb(255, 191, 204);
+    text-shadow: crimson 0 0 4px;
+    text-shadow: rgb(121, 8, 30) 200px;
+    text-align: center;
+
+}
+
 .stats_container{
 
     background-color: #0505172d;
