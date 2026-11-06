@@ -1,5 +1,9 @@
 const slider = document.getElementById("nPlanets");
 const resetButton = document.getElementById("resetBTN");
+const saveButton = document.getElementById("saveBTN");
+const loadButton = document.getElementById("loadBTN");
+const autRes = document.getElementById("keepGoing");
+
 let nPlanets = slider.value;
 let pos;
 let vel;
@@ -11,6 +15,7 @@ let zoom = 1;
 let xMin, xMax, yMin, yMax;
 let num_planets;
 
+let runState;
 
 
 function setup()
@@ -72,6 +77,7 @@ function createEnv()
 
     motionV = p5.Vector.div(motionV, totalMass);
 
+    
 
     for(let i = 0; i < planet.length; i++)
     {
@@ -79,6 +85,14 @@ function createEnv()
 
 
     }
+    
+    runState = {planets: []};
+
+    for(let i = 0; i < planet.length; i++)
+    {
+        runState.planets.push({x: planet[i].pos.x, y: planet[i].pos.y, velx: planet[i].vel.x, vely: planet[i].vel.y, mass: planet[i].mass})
+    }
+    JSON.stringify(runState);
 
 
     num_planets = planet.length;
@@ -168,27 +182,30 @@ function resetScene()
 
 function timeToReset()
 {
-    
-    for(let i = 0; i < planet.length; i++)
+    if(autRes.checked == true)
     {
-        if (planet[i].pos.x > windowWidth-25 || planet[i].pos.x < 0 || planet[i].pos.y > windowHeight-25 || planet[i].pos.y < 0)
+        for(let i = 0; i < planet.length; i++)
         {
-            num_planets--;
-        }
-        else
-        {
-            if(num_planets < planet.length)
+            if (planet[i].pos.x > windowWidth-25 || planet[i].pos.x < 0 || planet[i].pos.y > windowHeight-25 || planet[i].pos.y < 0)
             {
-                num_planets++;
-            }   
+                num_planets--;
+            }
+            else
+            {
+                if(num_planets < planet.length)
+                {
+                    num_planets++;
+                }   
+            }
+        }
+
+        if(num_planets < (planet.length / 2))
+        {
+            resetScene();
+            updateStats();
         }
     }
-
-    if(num_planets < (planet.length / 2))
-    {
-        resetScene();
-        updateStats();
-    }
+    
 
 }
 
@@ -202,4 +219,47 @@ resetButton.onclick = function()
 {
     resetScene();
     ricreateStats();
+}
+
+saveButton.onclick = function()
+{
+    saveJSON(runState, "orbit.json");
+}
+
+loadButton.onchange = function()
+{
+    let reader = new FileReader();
+    reader.onload = function()
+    {
+        
+        let element = JSON.parse(reader.result);
+        loadOrbit(element);
+
+    }
+    reader.readAsText(this.files[0]);
+    
+    
+}
+
+function loadOrbit(data)
+{
+    while(planet.length > 0)
+    {
+        planet.pop()
+    }
+
+    for(let i = 0; i < data.planets.length; i++)
+    {
+        planet[i] = new Planet(data.planets[i].x, data.planets[i].y, data.planets[i].mass);
+        planet[i].vel = createVector(data.planets[i].velx, data.planets[i].vely);
+        planet[i].setColor()
+
+        
+    }
+    nPlanets = data.planets.length;
+    slider.value = nPlanets;
+    runState = data;
+
+    ricreateStats();
+    background(0);
 }
