@@ -4,6 +4,7 @@ const saveButton = document.getElementById("saveBTN");
 const loadButton = document.getElementById("loadBTN");
 const autRes = document.getElementById("keepGoing");
 const speedSlider = document.getElementById("speedP");
+const canvas_c =  document.getElementById("canvas-container");
 
 
 let nPlanets = slider.value;
@@ -33,7 +34,8 @@ let distan;
 function setup()
 {
     maxHeight = min(800, windowHeight)
-    createCanvas(windowWidth, maxHeight);
+    let canvas = createCanvas(canvas_c.clientWidth, maxHeight);
+    canvas.parent(canvas_c)
     createEnv();
     createStats();
     
@@ -46,15 +48,16 @@ function draw()
 
     for(let i = 0; i < speed * subSteps; i++)
     {
+
         Attraction();
 
     }
     
     for(let j = 0; j < planet.length; j++)
     {
-        distan = dist(planet[j].pos.x, planet[j].pos.y, windowWidth/2, maxHeight/2)
+        distan = dist(planet[j].pos.x, planet[j].pos.y, width/2, maxHeight/2)
 
-        if(distan > maxRadius && distan < max(windowWidth, maxHeight))
+        if(distan > maxRadius && distan < max(width, maxHeight))
         {
             maxRadius = distan;
         }
@@ -63,9 +66,9 @@ function draw()
     
    
     push()
-    translate(windowWidth/2, maxHeight/2)
+    translate(width/2, maxHeight/2)
     scale(viewScale)
-    translate(-windowWidth/2, -maxHeight/2)
+    translate(-width/2, -maxHeight/2)
 
     for(let j = 0; j < planet.length; j++)
     {
@@ -82,7 +85,7 @@ function createEnv()
     
     for(let i = 0; i < nPlanets; i++)
     {
-      planet[i] = new Planet(random(windowWidth/2-windowWidth/8, windowWidth/2+windowWidth/8), random(maxHeight/2-maxHeight/8,maxHeight/2+maxHeight/8), random(0.5, 1.5));  
+      planet[i] = new Planet(random(width/2-width/8, width/2+width/8), random(maxHeight/2-maxHeight/8,maxHeight/2+maxHeight/8), random(0.5, 1.5));  
       planet[i].setColor();
       
       
@@ -114,7 +117,7 @@ function createEnv()
 
     for(let i = 0; i < planet.length; i++)
     {
-        runState.planets.push({x: planet[i].pos.x - windowWidth/2, y: planet[i].pos.y - maxHeight/2, velx: planet[i].vel.x, vely: planet[i].vel.y, mass: planet[i].mass})
+        runState.planets.push({x: planet[i].pos.x - width/2, y: planet[i].pos.y - maxHeight/2, velx: planet[i].vel.x, vely: planet[i].vel.y, mass: planet[i].mass})
     }
     
 
@@ -176,7 +179,7 @@ function timeToReset()
     {
         for(let i = 0; i < planet.length; i++)
         {
-            if (planet[i].pos.x > windowWidth || planet[i].pos.x < 0 || planet[i].pos.y > maxHeight || planet[i].pos.y < 0)
+            if (planet[i].pos.x > width || planet[i].pos.x < 0 || planet[i].pos.y > maxHeight || planet[i].pos.y < 0)
             {
                 num_planets--;
             }
@@ -251,7 +254,7 @@ function loadOrbit(data)
 
     for(let i = 0; i < data.planets.length; i++)
     {
-        planet[i] = new Planet(data.planets[i].x + windowWidth/2, data.planets[i].y + maxHeight/2, data.planets[i].mass);
+        planet[i] = new Planet(data.planets[i].x + width/2, data.planets[i].y + maxHeight/2, data.planets[i].mass);
         planet[i].vel = createVector(data.planets[i].velx, data.planets[i].vely);
         planet[i].setColor()
 
@@ -260,7 +263,7 @@ function loadOrbit(data)
 
     if(data.radius > 0)
     {
-        minus = min(windowWidth, maxHeight);
+        minus = min(width, maxHeight);
         minus = ((minus/2)-40)/data.radius;
         viewScale = min(1, minus)
 

@@ -1,16 +1,35 @@
 
+html{
+    scrollbar-gutter: stable;
+}
+
 body{
-
-
+    overflow-x: hidden;
+    margin:0;
+    padding:0;
     background-color: black;
 }
 
-h1{
+#canvas-container
+{
+    margin:0;
+    padding:0;
+}
+
+h1, h2{
+    color: rgb(255, 191, 204);
+    text-shadow: crimson 0 0 4px;
+    text-shadow: rgb(121, 8, 30) 200px;
+    text-align: center;
+    font-size: clamp(48px, 5vw, 64px);
+}
+p{
     color: rgb(255, 191, 204);
     text-shadow: crimson 0 0 4px;
     text-shadow: rgb(121, 8, 30) 200px;
     text-align: center;
 }
+
 h5{
     color: rgb(255, 191, 204);
     text-shadow: crimson 0 0 4px;
