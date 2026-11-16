@@ -5,6 +5,7 @@ const loadButton = document.getElementById("loadBTN");
 const autRes = document.getElementById("keepGoing");
 const speedSlider = document.getElementById("speedP");
 const canvas_c =  document.getElementById("canvas-container");
+const pauseButton = document.getElementById("pauseBTN");
 
 
 let nPlanets = slider.value;
@@ -20,7 +21,7 @@ let num_planets;
 
 let runState;
 
-let speed = 1;
+let speed = 0.5;
 
 let subSteps = 50;
 let timeStep = 1/subSteps;
@@ -30,16 +31,20 @@ var viewScale = 1;
 let maxRadius = 0;
 let distan;
 
+let paused = false
+let canvas
 
 function setup()
 {
     maxHeight = min(800, windowHeight)
-    let canvas = createCanvas(canvas_c.clientWidth, maxHeight);
+    canvas = createCanvas(canvas_c.clientWidth, maxHeight);
     canvas.parent(canvas_c)
     createEnv();
     createStats();
     
 }
+
+
 
 function draw()
 {
@@ -48,8 +53,11 @@ function draw()
 
     for(let i = 0; i < speed * subSteps; i++)
     {
-
-        Attraction();
+        if(paused == false)
+        {
+            Attraction();
+        }
+        
 
     }
     
@@ -85,7 +93,7 @@ function createEnv()
     
     for(let i = 0; i < nPlanets; i++)
     {
-      planet[i] = new Planet(random(width/2-width/8, width/2+width/8), random(maxHeight/2-maxHeight/8,maxHeight/2+maxHeight/8), random(0.5, 1.5));  
+      planet[i] = new Planet(random(width/2-width/8, width/2+width/8), random(maxHeight/2-maxHeight/8,maxHeight/2+maxHeight/8), 0.5 * pow(3 / 0.5, random()));  
       planet[i].setColor();
       
       
@@ -209,7 +217,7 @@ slider.oninput = function() {
 }
 speedSlider.oninput = function()
 {
-    speed = speedSlider.value;
+    speed = speedSlider.value/2;
 }
 
 resetButton.onclick = function()
@@ -228,6 +236,21 @@ saveButton.onclick = function()
    saveJSON(runState, "orbit.json");
     
 
+}
+
+pauseButton.onclick = function()
+{
+    if(paused)
+    {
+        paused = false;
+        pauseButton.value = "Pause";
+    }
+    else
+    {
+        paused = true;
+        pauseButton.value = "Play";
+
+    }
 }
 
 loadButton.onchange = function()

@@ -44,7 +44,7 @@ input[type="button"]{
 
     background-color: #0505172d;
     position: fixed;
-    color: crimson;
+    color: rgb(255, 0, 51);
     right: 0;
     bottom: 0;
     padding:10px;

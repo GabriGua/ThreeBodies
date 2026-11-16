@@ -55,8 +55,8 @@ class Planet
         
         stroke(255);
         strokeWeight(2);
-        fill(this.color1, this.color2, this.color3, 100)
-        ellipse(this.pos.x, this.pos.y, 16);
+        fill(this.color1, this.color2, this.color3, 60)
+        ellipse(this.pos.x, this.pos.y, 16 * pow(this.mass, 1/3));
         
     }
 }

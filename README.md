@@ -1,6 +1,6 @@
 # Threebodies
 
-![Demo](Example/demo.gif)
+![Demo](Assets/demo.gif)
 
 This is a physics simulation of the three-body problem
 
@@ -16,10 +16,13 @@ https://gabrigua.github.io/ThreeBodies/
   - Play around with the amount of planets and speed
   - Search for new stable orbits using the "Automatic Reset" checkbox
   - Save your favourite runs as JSON files and load them later
+  - Pause the simulation and restart it
   
 ## Examples
 
-In [Example](Example) you can find already made preset that you can load in the simulator and watch
+In [Example](Example) you can find already made preset that you can load in the simulator and watch:
+
+Download them and use the "Select file" button to run the preset simulation
 
 ## The story
 
