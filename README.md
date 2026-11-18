@@ -35,7 +35,7 @@ Once I got started, I found a great tutorial on YouTube that helped me take the 
 
 Vanilla Javascript for Newtonian gravity with softening, symplectic Euler integrator with sub-steps
 
-[p5.js](https://p5js.org/) for rendering and animation loop
+[p5.js](https://p5js.org/) for rendering and animation loop – licensed under the [GNU LGPL 2.1](https://github.com/processing/p5.js/blob/main/license.txt)
 
 HTML5 & CSS3
 
@@ -47,7 +47,7 @@ Hosted with Github Pages
 - Figure-eight initial conditions: Chenciner & Montgomery (2000)
 - I wrote the simulator code myself. I used Claude AI as a tutor: it explained
   concepts, pointed me to resources and helped me find bugs.
-- The preset orbits files were generated with AI assistance (Claude) and tested in the simulator
+- The preset orbit files were generated with AI assistance (Claude) and tested in the simulator
 
 
 ### Made by Gabbs for Cubed, A Hack Club Event
