@@ -45,7 +45,9 @@ Hosted with Github Pages
 
 - Learning resources: [The Nature of Code](https://natureofcode.com/) and The Coding Train
 - Figure-eight initial conditions: Chenciner & Montgomery (2000)
-- The prese orbit files were generated with AI assistance (Claude) and tested in the simulator
+- I wrote the simulator code myself. I used Claude AI as a tutor: it explained
+  concepts, pointed me to resources and helped me find bugs.
+- The preset orbits files were generated with AI assistance (Claude) and tested in the simulator
 
 
 ### Made by Gabbs for Cubed, A Hack Club Event
